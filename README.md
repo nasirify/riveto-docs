@@ -1,35 +1,9 @@
-<style>
-    * {
-        line-height: 1.7rem;
-    }
-    .title {
-        font-size: 1.7rem; opacity: 90%; font-weight:bold;
-    }
-    .subtitle {
-        font-size: 1rem; opacity: 50%;  
-    }
-    mark {
-        padding: 0.2rem 0.4rem; border-radius: 0.2rem;background-color: rgba(168, 141, 50, 0.2);color:inherit; margin: 0 0.2rem; 
-    }
-    u {
-        text-decoration: underline;
-        text-underline-offset: 0.35rem;
-        text-decoration-style: dashed;
-    }
-</style>
-
-<div style="text-align:center; margin-bottom: 2rem;">
-<img src="./assets/icons/icon.svg" style="max-width: 100px;" > 
-<div class="title"> Riveto Development Documentation </div>
-<span class="subtitle">  what you need to know about Riveto Dev as a Riveto Nerd 😎 </span>
-</div>
-<body>
-
-Do consider this as <mark>THE MAIN</mark>source of <u>Thinking about how you should see yourself in relation to Riveto</u> as someone who is working on any aspect of this project.
+# Riveto Development Documentation
+Do consider this as THE MAIN source of Thinking about how you should see yourself in relation to Riveto as someone who is working on any aspect of this project.
 
 ## Core Role of Riveto
 
-We believe by enhanced learning through science and technology we can make a difference in human life quality. <mark style="padding: 0.2rem 0.4rem; border-radius: 0.2rem;background-color: rgba(168, 141, 50, 0.2);color:inherit; margin: 0 0.2rem;">Riveto's core role</mark> in its users' life is <u>enhanced learning</u>. Notice we are referencing two areas that might seem the to be the same at first sight, but it is critical to know the specific definition of the concepts we are communicating:
+We believe by enhanced learning through science and technology we can make a difference in human life quality. Riveto's core role in its users' life is enhanced learning. Notice we are referencing two areas that might seem the to be the same at first sight, but it is critical to know the specific definition of the concepts we are communicating:
 
 1. **Science**: like neuroscience, behavioral science, and related research about learning in an expansive selection of fields.
 2. **technology**: the use of techs like social media and developing a web application etc. to deliver the core role of Riveto
