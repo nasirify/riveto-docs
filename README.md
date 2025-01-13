@@ -1,3 +1,10 @@
+<p align="center">
+  <img src="./assets/icons/icon.svg" width="100" alt="Riveto Logo" />
+  <div align="center">Things that Riveto Nerds need to know behind the curtains 😎 </div>
+  <div align="center">Riveto 2017 - 2025 with 💛 </div>
+  <br><br>
+</p>
+
 # Riveto Development Documentation
 Do consider this as THE MAIN source of Thinking about how you should see yourself in relation to Riveto as someone who is working on any aspect of this project.
 
