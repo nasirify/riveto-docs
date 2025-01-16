@@ -21,6 +21,15 @@ This is both the development documentation and the architecture guideline for Ri
 
 ## Transactions
 
+we have this pricing system:\
+Each Riveto Coin === 50.000 IRR === MAX price\
+if user buys 1< amount >=49 => apply max price\
+if user buys 50< amount >=99 => apply 45.000 IRR\
+if user buys 100< amount >=249 => apply 40.000 IRR\
+if user buys 250< amount >=499 => apply 37.500 IRR\
+if user buys 500< amount >=999 => apply 35.000 IRR\
+if user buys amount >= 1000 => apply 30.000 IRR\
+
 ```ts
 {
     user: {type: mongoose.Types.ObjectId, ref: "User"},
@@ -31,8 +40,12 @@ This is both the development documentation and the architecture guideline for Ri
         type: 'Completed' | 'pending' | 'failed',
         default: 'pending',
     },
-    pendingAt: Date,
-    updatedAt: Date,
+    metadata: {
+    type: Object,       // data from Zarinpal you need to save
+    },
+    pendingAt: Date,    // date with exact time to the second
+    updatedAt: Date,    // date with exact time to the second
+
 }
 ```
 
@@ -107,17 +120,6 @@ This is both the development documentation and the architecture guideline for Ri
 ```
 
 ## ReadLessons
-
-```ts
-{
-    lesson: {type: mongoose.Types.ObjectId, ref: "Lesson"},
-    user: {type: mongoose.Types.ObjectId, ref: "User"},
-    updatedAt: Date,
-    isDeleted: Boolean,
-}
-```
-
-## CoinPack
 
 ```ts
 {

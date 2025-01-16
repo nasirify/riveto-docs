@@ -92,25 +92,25 @@ query params:
 
 it returns:
 
-```json
+```ts
 {
-  "list": [{ "slug": "", "title": "", "createdAt": "" }],
-  "total": number,
-  "page": number,
-  "limit": number,
+  list: [{ "slug": "", "title": "", "createdAt": "" }],
+  total: number,
+  page: number,
+  limit: number,
 }
 ```
 
 ## admin
 
-GET /admin/users
-GET /admin/transactions
-GET /admin/user/{id} // all user data
-GET /admin/user/{id}/list // like /user/list
+GET   /admin/users
+GET   /admin/transactions
+GET   /admin/user/{id} // all user data
+GET   /admin/user/{id}/list // like /user/list
 PATCH /admin/user/{id} // edit role
-POST admin/lesson/
+POST  admin/lesson/
 PATCH admin/lesson/
-POST admin/course/
+POST  admin/course/
 PATCH admin/course/
 
 ### 🔓 GET lesson
@@ -124,10 +124,6 @@ GET /course/{slug}
 ---
 
 [ ] - /course - POST
-[ ] - /course/material - POST
-[ ] - /course/material/{id} - GET
-[ ] - /course/material/{id} - PATCH
-[ ] - /course/materials - GET
 [ ] - /course/{id} - GET
 [ ] - /course/{id} - PATCH
 [ ] - /courses - GET
