@@ -15,6 +15,7 @@ This is both the development documentation and the architecture guideline for Ri
   avatar: String,
   createdAt: Date,
   lastLogin: Date,
+  otp: Number,
   role: 'pioneer' | 'user' | 'admin'
 }
 ```
