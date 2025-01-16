@@ -8,76 +8,120 @@ This is both the development documentation and the architecture guideline for Ri
 
 ## auth
 
-> POST /auth/login
+### 🔓 PUBLIC POST /auth/otp
 
-PUBLIC
+req payload:
 
-- payload: {“userMobilePhone”:”...”}
-- if user exists in db
-- . true > otp generation & save in db & send SMS & return truthy
-- false > return falsy + “user does not exists”
+```json
+{ "phoneNumber": "..." }
+```
 
-> POST /auth/otp
-
-PUBLIC
-
-- payload: {“userMobilePhone”:”...”, “userLoginOtp”:”...”}
-- if otp in db / user === req.otp
-- true > generate JWT & return truthy + jwt
-- false > return unauthorized access err
-
-> HEAD /auth/logout
-
-PUBLIC
-
-- return HEAD to clean jwt cookie
-
-> POST auth/register
-
-PUBLIC
-
-- payload: {
-  "phoneNumber":"",
-  "firstName":"",
-  "lastName":""
-  }
 - if user in db
-- true > return falsy
-- false > save user in db and return true
+- true > otp generation & save opt in db & send SMS to user & return respective status
+- false > return respective status
+
+### 🔓 PUBLIC POST /auth/login
+
+req payload:
+
+```json
+{ "phoneNumber": "...", "otp": "..." }
+```
+
+- if user in db
+- true > proceed:
+  - if otp in db / user === req.otp
+  - true > generate JWT & return respective status + jwt
+  - false > return respective status
+- false > return respective status
+
+### 🔓 PUBLIC HEAD /auth/logout
+
+- revoke jwt & return respective status
+
+### 🔓 PUBLIC POST auth/register
+
+req payload:
+
+```json
+{
+  "phoneNumber": "",
+  "firstName": "",
+  "lastName": ""
+}
+```
+
+- if user in db
+- true > return respective status
+- false > save user in db return respective status
 
 ## user
 
-> GET /user/{id}
+### 🔐 GET /user/{id}
 
-- if !isLoggedIn return:
-
+```json
 {
-"phoneNumber":"",
-"firstName":"",
-"lastName":"",
-"profileUrl":"",
-"createdAt":"",
-"lastLogin":"",
-"bookmarkedLesson":"",
-"bookmarkCourses":"".
-"coinBalance":""
+  "phoneNumber": "",
+  "firstName": "",
+  "lastName": "",
+  "avatar": "",
+  "createdAt": "",
+  "lastLogin": "",
+  "coinBalance": "",
+  "role": ""
 }
+```
 
+### 🔐 GET /user/list
+
+query params:
+
+```ts
+  {
+    type: "bookmarkedLesson" | "bookmarkedCourse" | "ownedLessons" | "readLesson" | "transactions",
+    page: number,
+    limit: number,
+    filter: {
+     field: 'date'
+     from: T,  // Generic Type
+     to: T,    // Generic Type
+    }
+    sortBy: "ace" | "dcs",
+  },
+```
+
+it returns:
+
+```json
+{
+  "list": [{ "slug": "", "title": "", "createdAt": "" }],
+  "total": number,
+  "page": number,
+  "limit": number,
+}
+```
 
 ## admin
 
-> GET /admin/{id}
+GET /admin/users
+GET /admin/transactions
+GET /admin/user/{id} // all user data
+GET /admin/user/{id}/list // like /user/list
+PATCH /admin/user/{id} // edit role
+POST admin/lesson/
+PATCH admin/lesson/
+POST admin/course/
+PATCH admin/course/
 
-- if isAdmin
-- true > return truthy
-- false > return falsy
-> GET /admin/users
-- true > return truthy
-- false > return falsy
+### 🔓 GET lesson
 
-[ ] - /admin/transactions - GET
-[ ] - /admin/user/{id}/ - PATCH
-[ ] - /admin/users - GET
+GET /lesson/{slug}
+
+### 🔓 GET Course
+
+GET /course/{slug}
+
+---
 
 [ ] - /course - POST
 [ ] - /course/material - POST
@@ -88,7 +132,6 @@ PUBLIC
 [ ] - /course/{id} - PATCH
 [ ] - /courses - GET
 
-[ ] - /user/{id}/transactions - GET
-[ ] - /user/{id}/wallet - GET
-[ ] - /user/{id}/wallet - POST
-[ ] - /user/getUser - GET
+[ ] - /user/transactions - GET
+[ ] - /user/wallet - GET
+[ ] - /user/wallet - POST
