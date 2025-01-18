@@ -35,16 +35,14 @@ if user buys amount >= 1000 => apply 30.000 IRR\
 ```ts
 {
     user: {type: mongoose.Types.ObjectId, ref: "User"},
-    type: "fixedPrice" | "CustomPrice",
+    gateway: String,
     amount: Number,
     price: Number,
     status: {
         type: 'Completed' | 'pending' | 'failed',
         default: 'pending',
     },
-    metadata: {
-    type: Object,       // data from Zarinpal you need to save
-    },
+    gatewayRefID: String,
     pendingAt: Date,    // date with exact time to the second
     updatedAt: Date,    // date with exact time to the second
 
