@@ -57,7 +57,7 @@ req payload:
 
 ## user
 
-### 🔐 GET /user/{id}
+### 🔐 GET /user
 
 ```json
 {
