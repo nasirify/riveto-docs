@@ -35,7 +35,6 @@ if user buys amount >= 1000 => apply 30.000 IRR\
 ```ts
 {
     user: {type: mongoose.Types.ObjectId, ref: "User"},
-    type: "fixedPrice" | "CustomPrice",
     amount: Number,
     price: Number,
     status: {
