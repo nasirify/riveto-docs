@@ -8,7 +8,7 @@ This is both the development documentation and the architecture guideline for Ri
 
 ## auth
 
-### 🔓 PUBLIC POST /auth/otp
+### 🔓 POST `/auth/otp`
 
 req payload:
 
@@ -20,7 +20,7 @@ req payload:
 - true > otp generation & save opt in db & send SMS to user & return respective status
 - false > return respective status
 
-### 🔓 PUBLIC POST /auth/login
+### 🔓 POST `/auth/login`
 
 req payload:
 
@@ -35,11 +35,11 @@ req payload:
   - false > return respective status
 - false > return respective status
 
-### 🔓 PUBLIC HEAD /auth/logout
+### 🔓 HEAD `/auth/logout`
 
-- revoke jwt & return respective status
+revoke jwt & return respective status
 
-### 🔓 PUBLIC POST auth/register
+### 🔓 POST `auth/register`
 
 req payload:
 
@@ -55,9 +55,9 @@ req payload:
 - true > return respective status
 - false > save user in db return respective status
 
-## user
+## User
 
-### 🔐 GET /user/{id}
+### 🔐 GET `/user`
 
 ```json
 {
@@ -72,13 +72,13 @@ req payload:
 }
 ```
 
-### 🔐 GET /user/list
+### 🔐 GET `/user/list`
 
 query params:
 
 ```ts
   {
-    type: "bookmarkedLesson" | "bookmarkedCourse" | "ownedLessons" | "readLesson" | "transactions",
+    type: "transactions",
     page: number,
     limit: number,
     filter: {
@@ -101,16 +101,85 @@ it returns:
 }
 ```
 
-## admin
+## Transaction
 
-GET   /admin/users
-GET   /admin/transactions
-GET   /admin/user/{id} // all user data
-GET   /admin/user/{id}/list // like /user/list
+### 🔐 POST `/transaction/coin-purchase`
+
+FrontEnd sends a req this this backend route `/transaction/coin-purchase`
+
+```ts
+{
+    amount: number, //in toman
+    coinAmount: number,
+    gateway: 'zatinpal',
+    callbackUrl: string,
+    description: string,
+  }
+```
+
+and backend responses the gateway url like this:
+
+```ts
+{
+  gatwayURL: string;
+}
+```
+
+and frontend forward the user to `gatwayURL`
+
+### 🔐 GET `/transaction/purchase-verify/{id,gateway}`
+
+now the user is in the gatway.\
+user might abort payment. if not, the user will be redirected to the `callbackURL` with this pattern of url query param: `?Authority=XXX&Status=XXX` then we send a request to this route of the backend: `/transaction/payment-verification/{id}` as param
+
+the backend will return this object:
+
+```ts
+{
+    transactionId: string,
+}
+```
+
+## Admin
+
+### 🔐 GET `/admin/list`
+
+query params:
+
+```ts
+  {
+    type: "users" | "transactions",
+    page: number,
+    limit: number,
+    filter: {
+     field: 'date'
+     from: T,  // Generic Type
+     to: T,    // Generic Type
+    }
+    sortBy: "ace" | "dcs",
+  },
+```
+
+it returns:
+
+```ts
+{
+  list: [{ "slug": "", "title": "", "createdAt": "" }],
+  total: number,
+  page: number,
+  limit: number,
+}
+```
+
+---
+
+## TODO
+
+GET /admin/user/{id} // all user data
 PATCH /admin/user/{id} // edit role
-POST  admin/lesson/
+POST admin/lesson/
 PATCH admin/lesson/
-POST  admin/course/
+POST admin/course/
 PATCH admin/course/
 
 ### 🔓 GET lesson
@@ -128,6 +197,5 @@ GET /course/{slug}
 [ ] - /course/{id} - PATCH
 [ ] - /courses - GET
 
-[ ] - /user/transactions - GET
-[ ] - /user/wallet - GET
-[ ] - /user/wallet - POST
+USER lists\
+`"bookmarkedLesson" | "bookmarkedCourse" | "ownedLessons" | "readLesson"`
