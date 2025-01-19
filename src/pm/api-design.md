@@ -81,12 +81,19 @@ query params:
     type: "transactions",
     page: number,
     limit: number,
-    filters: [
-       {
-     field: 'date'
-     from: T,  // Generic Type
-     to: T,    // Generic Type
-      }]
+    filters: 
+    [
+  {
+    field: 'date',
+    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains' 
+           | 'doesNotContain' | 'greaterThan' | 'lessThan' 
+           | 'between' | 'isDate' | 'isNotDate' | 'afterDate' 
+           | 'beforeDate' | 'betweenDates' | 'isTime' | 'isNotTime',
+    from?: T,  // Generic Type
+    to?: T,    // Generic Type
+    value?: T, // Generic Type
+  }
+]
     sortBy: "ace" | "dcs",
   },
 ```
@@ -152,11 +159,19 @@ query params:
     type: "users" | "transactions",
     page: number,
     limit: number,
-    filters: [{
-     field: 'date'
-     from: T,  // Generic Type
-     to: T,    // Generic Type
-    }]
+    filters: 
+    [
+  {
+    field: 'date',
+    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains' 
+           | 'doesNotContain' | 'greaterThan' | 'lessThan' 
+           | 'between' | 'isDate' | 'isNotDate' | 'afterDate' 
+           | 'beforeDate' | 'betweenDates' | 'isTime' | 'isNotTime',
+    from?: T,  // Generic Type
+    to?: T,    // Generic Type
+    value?: T, // Generic Type
+  }
+]
     sortBy: "ace" | "dcs",
   },
 ```
