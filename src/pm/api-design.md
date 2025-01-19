@@ -81,11 +81,12 @@ query params:
     type: "transactions",
     page: number,
     limit: number,
-    filter: {
+    filters: [
+       {
      field: 'date'
      from: T,  // Generic Type
      to: T,    // Generic Type
-    }
+      }]
     sortBy: "ace" | "dcs",
   },
 ```
@@ -151,11 +152,11 @@ query params:
     type: "users" | "transactions",
     page: number,
     limit: number,
-    filter: {
+    filters: [{
      field: 'date'
      from: T,  // Generic Type
      to: T,    // Generic Type
-    }
+    }]
     sortBy: "ace" | "dcs",
   },
 ```
