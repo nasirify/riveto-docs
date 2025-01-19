@@ -55,6 +55,24 @@ req payload:
 - true > return respective status
 - false > save user in db return respective status
 
+## Topics
+
+### 🔓 GET `topic/list`
+
+the topics that wrap courses in themselves./
+the return is like this"
+
+```ts
+{
+  title: string,
+  slug: string,
+  description: string,
+  imageUrl: string,
+}
+```
+
+### 🔐 POST `/transaction/coin-purchase`
+
 ## User
 
 ### 🔐 GET `/user`
@@ -130,7 +148,7 @@ and frontend forward the user to `gatwayURL`
 ### 🔐 GET `/transaction/purchase-verify/{id,gateway}`
 
 now the user is in the gatway.\
-user might abort payment. if not, the user will be redirected to the `callbackURL` with this pattern of url query param: `?Authority=XXX&Status=XXX` then we send a request to this route of the backend: `/transaction/payment-verification/{id}` as param
+user might abort payment. if not, the user will be redirected to the `callbackURL` with this pattern of url query param: `?Authority=XXX&Status=XXX` then we send a request to this route of the backend: `/transaction/purchase-verify/{id}` as param
 
 the backend will return this object:
 
