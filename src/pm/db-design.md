@@ -44,6 +44,32 @@ This is both the development documentation and the architecture guideline for Ri
 }
 ```
 
+## Topics
+
+```ts
+{
+  slug: string;
+  title: string;
+  description: string;
+  iconUrl: string;
+}
+```
+
+## Courses
+
+```ts
+{
+    slug: String,
+    parentTopicSlug: String,
+    title: String,
+    description: String,
+    thumbnailUrl: String,
+    videoUrl: String,
+    lessons: [{type: mongoose.Types.ObjectId, ref: "Lesson"}],
+    bookmarkedBy: [{type: mongoose.Types.ObjectId, ref: "User"}],
+}
+```
+
 ## Lessons
 
 ```ts
@@ -65,21 +91,6 @@ This is both the development documentation and the architecture guideline for Ri
     bookmarkedBy: {type: mongoose.Types.ObjectId, ref: "User"},
     readBy: {type: mongoose.Types.ObjectId, ref: "User"},
     ownedBy: {type: mongoose.Types.ObjectId, ref: "User"},
-}
-```
-
-## Courses
-
-```ts
-{
-    slug: String,
-    title: String,
-    description: String,
-    cover: String,
-    video: String,
-    topic: String,
-    lessons: [{type: mongoose.Types.ObjectId, ref: "Lesson"}],
-    bookmarkedBy: {type: mongoose.Types.ObjectId, ref: "User"},
 }
 ```
 
@@ -122,16 +133,5 @@ This is both the development documentation and the architecture guideline for Ri
     user: {type: mongoose.Types.ObjectId, ref: "User"},
     updatedAt: Date,
     isDeleted: Boolean,
-}
-```
-
-## Topics
-
-```ts
-{
-  title: string,
-  slug: string,
-  description: string,
-  imageUrl: string,
 }
 ```

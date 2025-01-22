@@ -55,22 +55,6 @@ req payload:
 - true > return respective status
 - false > save user in db return respective status
 
-## Topics
-
-### 🔓 GET `topic/list`
-
-the topics that wrap courses in themselves./
-the return is like this"
-
-```ts
-{
-  title: string,
-  slug: string,
-  description: string,
-  imageUrl: string,
-}
-```
-
 ### 🔐 POST `/transaction/coin-purchase`
 
 ## User
@@ -99,13 +83,13 @@ query params:
     type: "transactions",
     page: number,
     limit: number,
-    filters: 
+    filters:
     [
   {
     field: 'date',
-    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains' 
-           | 'doesNotContain' | 'greaterThan' | 'lessThan' 
-           | 'between' | 'isDate' | 'isNotDate' | 'afterDate' 
+    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains'
+           | 'doesNotContain' | 'greaterThan' | 'lessThan'
+           | 'between' | 'isDate' | 'isNotDate' | 'afterDate'
            | 'beforeDate' | 'betweenDates' | 'isTime' | 'isNotTime',
     from?: T,  // Generic Type
     to?: T,    // Generic Type
@@ -177,13 +161,13 @@ query params:
     type: "users" | "transactions",
     page: number,
     limit: number,
-    filters: 
+    filters:
     [
   {
     field: 'date',
-    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains' 
-           | 'doesNotContain' | 'greaterThan' | 'lessThan' 
-           | 'between' | 'isDate' | 'isNotDate' | 'afterDate' 
+    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains'
+           | 'doesNotContain' | 'greaterThan' | 'lessThan'
+           | 'between' | 'isDate' | 'isNotDate' | 'afterDate'
            | 'beforeDate' | 'betweenDates' | 'isTime' | 'isNotTime',
     from?: T,  // Generic Type
     to?: T,    // Generic Type
@@ -205,9 +189,82 @@ it returns:
 }
 ```
 
+## Topics
+
+topics group the courses.
+
+### 🔓 GET `topics`
+
+list of topics\
+with this response:
+
+```ts
+[
+  {
+  slug: string;
+  title: string;
+  description: string;
+  iconUrl: string;
+  },
+];
+```
+
+## Courses
+
+courses group the lessons.\
+
+### 🔓 GET `courses`
+
+list of courses\
+with this response:
+
+```ts
+[
+  {
+    slug: String,
+    parentTopicSlug: String,
+    title: String,
+    description: String,
+    thumbnailUrl: String,
+    videoUrl: String,
+    bookmarkedCount: number,
+  },
+];
+```
+
 ---
 
 ## TODO
+
+### 🔓 GET `/course/{slug}`
+
+the course\
+list of lessons.\
+with this response:
+
+```ts
+[{}];
+```
+
+### 🔓 GET `/lesson/{slug}`
+
+lesson\
+content of a lesson.\
+with this response:
+
+```ts
+[
+  {
+    title: String,
+    description: String,
+    cover: String,
+    video: String,
+    topic: String,
+    lessons: ["lessonSlug"],
+    bookmarkedCount: number,
+  },
+];
+```
 
 GET /admin/user/{id} // all user data
 PATCH /admin/user/{id} // edit role
@@ -219,10 +276,6 @@ PATCH admin/course/
 ### 🔓 GET lesson
 
 GET /lesson/{slug}
-
-### 🔓 GET Course
-
-GET /course/{slug}
 
 ---
 
