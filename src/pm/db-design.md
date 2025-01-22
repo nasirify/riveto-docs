@@ -28,7 +28,6 @@ This is both the development documentation and the architecture guideline for Ri
 ```ts
 {
     user: {type: mongoose.Types.ObjectId, ref: "User"},
-    type: "fixedPrice" | "CustomPrice",
     amount: Number,
     price: Number,
     status: {
