@@ -28,16 +28,14 @@ This is both the development documentation and the architecture guideline for Ri
 ```ts
 {
     user: {type: mongoose.Types.ObjectId, ref: "User"},
-    type: "fixedPrice" | "CustomPrice",
+    gateway: String,
     amount: Number,
     price: Number,
     status: {
         type: 'Completed' | 'pending' | 'failed',
         default: 'pending',
     },
-    metadata: {
-    type: Object,       // data from Zarinpal you need to save
-    },
+    gatewayRefID: String,
     pendingAt: Date,    // date with exact time to the second
     updatedAt: Date,    // date with exact time to the second
 
