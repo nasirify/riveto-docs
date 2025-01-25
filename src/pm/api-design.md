@@ -119,7 +119,7 @@ FrontEnd sends a req this this backend route `/transaction/coin-purchase`
 
 ```ts
 {
-    amount: number, //in toman
+    amount: number,
     coinAmount: number,
     gateway: 'zatinpal',
     callbackUrl: string,
@@ -152,29 +152,32 @@ the backend will return this object:
 
 ## Admin
 
-### 🔐 GET `/admin/list`
+### 🔐 POST `/admin/users`
 
-query params:
+### 🔐 POST `/admin/transactions`
+
+payload:
 
 ```ts
   {
-    type: "users" | "transactions",
     page: number,
     limit: number,
+    select: string[], // if empty returns evey field. list of properties that may be inculded
     filters:
     [
   {
     field: 'date',
     type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains'
            | 'doesNotContain' | 'greaterThan' | 'lessThan'
-           | 'between' | 'isDate' | 'isNotDate' | 'afterDate'
-           | 'beforeDate' | 'betweenDates' | 'isTime' | 'isNotTime',
-    from?: T,  // Generic Type
-    to?: T,    // Generic Type
-    value?: T, // Generic Type
+           | 'between' | 'isGivenDate' | 'afterGivenDate'
+           | 'beforeGivenDate' | 'betweenGivenDates'
+    from?: T,  // for number and date
+    to?: T,    // for number and date
+    value?: T, // for strings
   }
-]
-    sortBy: "ace" | "dcs",
+],
+    sortBy: string,
+    orderBy: "asc" | "desc",
   },
 ```
 
@@ -209,6 +212,22 @@ with this response:
 ];
 ```
 
+### 🔓 POST `topics/{slug}`
+
+### 🔓 PATCH `topics/{slug}`
+
+payload:
+
+```ts
+[
+  {
+  title: string;
+  description: string;
+  iconUrl: string;
+  },
+];
+```
+
 ## Courses
 
 courses group the lessons.\
@@ -231,6 +250,30 @@ with this response:
   },
 ];
 ```
+
+### 🔓 PATCH `courses/{slug}`
+
+### 🔓 POST `courses/{slug}`
+
+payload:
+
+```ts
+[
+  {
+    parentTopicSlug: String,
+    title: String,
+    description: String,
+    thumbnailUrl: String,
+    videoUrl: String,
+  },
+];
+```
+
+---
+## Lesson
+
+
+
 
 ---
 
