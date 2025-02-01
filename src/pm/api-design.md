@@ -130,6 +130,7 @@ with this respond:
 ```ts
 [
   {
+  _id: string;
   slug: string;
   title: string;
   description: string;
@@ -167,6 +168,7 @@ with this respond:
 ```ts
 [
   {
+    _id: string;
     slug: String,
     parentTopicSlug: String,
     title: String,
