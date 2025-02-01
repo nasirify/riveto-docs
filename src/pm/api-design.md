@@ -6,6 +6,37 @@ This is both the development documentation and the architecture guideline for Ri
 2. Headers (like ) and quotes in this document should match the test description. Headers are `describe("Here", ...)` definition and quotes are `it("HERE", ...)` definition.
 3. Database Design is in this file [Riveto Database Design](./db-design.md)
 
+## filter
+
+the filter allow us to filter any data.\
+the routes supporting this feature will be flaged as `FILTER`.\
+payload:
+
+```ts
+  {
+    page: number,
+    limit: number,
+    select: string[], // if empty returns evey field. list of properties that may be inculded
+    filters:
+    [
+  {
+    field: 'date',
+    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains'
+           | 'doesNotContain' | 'greaterThan' | 'lessThan'
+           | 'between' | 'isGivenDate' | 'afterGivenDate'
+           | 'beforeGivenDate' | 'betweenGivenDates'
+    from?: T,  // for number and date
+    to?: T,    // for number and date
+    value?: T, // for strings
+  }
+],
+    sortBy: string,
+    orderBy: "asc" | "desc",
+  },
+```
+
+filter will return an object acording to the selective payload.
+
 ## auth
 
 ### 🔓 POST `/auth/otp`
@@ -55,8 +86,6 @@ req payload:
 - true > return respective status
 - false > save user in db return respective status
 
-### 🔐 POST `/transaction/coin-purchase`
-
 ## User
 
 ### 🔐 GET `/user`
@@ -74,123 +103,20 @@ req payload:
 }
 ```
 
-### 🔐 GET `/user/list`
-
-query params:
-
-```ts
-  {
-    type: "transactions",
-    page: number,
-    limit: number,
-    filters:
-    [
-  {
-    field: 'date',
-    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains'
-           | 'doesNotContain' | 'greaterThan' | 'lessThan'
-           | 'between' | 'isDate' | 'isNotDate' | 'afterDate'
-           | 'beforeDate' | 'betweenDates' | 'isTime' | 'isNotTime',
-    from?: T,  // Generic Type
-    to?: T,    // Generic Type
-    value?: T, // Generic Type
-  }
-]
-    sortBy: "ace" | "dcs",
-  },
-```
-
-it returns:
-
-```ts
-{
-  list: [{ "slug": "", "title": "", "createdAt": "" }],
-  total: number,
-  page: number,
-  limit: number,
-}
-```
-
 ## Transaction
 
-### 🔐 POST `/transaction/coin-purchase`
+> completely changed. the pr should be reviewd befor updating this section.
 
-FrontEnd sends a req this this backend route `/transaction/coin-purchase`
-
-```ts
-{
-    amount: number,
-    coinAmount: number,
-    gateway: 'zatinpal',
-    callbackUrl: string,
-    description: string,
-  }
-```
-
-and backend responses the gateway url like this:
-
-```ts
-{
-  gatwayURL: string;
-}
-```
-
-and frontend forward the user to `gatwayURL`
-
-### 🔐 GET `/transaction/purchase-verify/{id,gateway}`
-
-now the user is in the gatway.\
-user might abort payment. if not, the user will be redirected to the `callbackURL` with this pattern of url query param: `?Authority=XXX&Status=XXX` then we send a request to this route of the backend: `/transaction/purchase-verify/{id}` as param
-
-the backend will return this object:
-
-```ts
-{
-    transactionId: string,
-}
-```
 
 ## Admin
 
 ### 🔐 POST `/admin/users`
 
+`FILTER` functionality
+
 ### 🔐 POST `/admin/transactions`
 
-payload:
-
-```ts
-  {
-    page: number,
-    limit: number,
-    select: string[], // if empty returns evey field. list of properties that may be inculded
-    filters:
-    [
-  {
-    field: 'date',
-    type: 'is' | 'isNot' | 'startsWith' | 'endsWith' | 'contains'
-           | 'doesNotContain' | 'greaterThan' | 'lessThan'
-           | 'between' | 'isGivenDate' | 'afterGivenDate'
-           | 'beforeGivenDate' | 'betweenGivenDates'
-    from?: T,  // for number and date
-    to?: T,    // for number and date
-    value?: T, // for strings
-  }
-],
-    sortBy: string,
-    orderBy: "asc" | "desc",
-  },
-```
-
-it returns:
-
-```ts
-{
-  list: [{ "slug": "", "title": "", "createdAt": "" }],
-  total: number,
-  page: number,
-  limit: number,
-}
-```
+`FILTER` functionality
 
 ## Topics
 
@@ -199,7 +125,7 @@ topics group the courses.
 ### 🔓 GET `topics`
 
 list of topics\
-with this response:
+with this respond:
 
 ```ts
 [
@@ -212,15 +138,16 @@ with this response:
 ];
 ```
 
-### 🔓 POST `topics/{slug}`
+### 🔓 POST `topics`
 
-### 🔓 PATCH `topics/{slug}`
+### 🔓 PATCH `topics/{old-slug}`
 
 payload:
 
 ```ts
 [
   {
+  slug: string, // for patch this is the new slug
   title: string;
   description: string;
   iconUrl: string;
@@ -235,7 +162,7 @@ courses group the lessons.\
 ### 🔓 GET `courses`
 
 list of courses\
-with this response:
+with this respond:
 
 ```ts
 [
@@ -251,15 +178,16 @@ with this response:
 ];
 ```
 
-### 🔓 PATCH `courses/{slug}`
+### 🔓 PATCH `courses/{old-slug}`
 
-### 🔓 POST `courses/{slug}`
+### 🔓 POST `courses`
 
 payload:
 
 ```ts
 [
   {
+    slug: string, // for patch this is the new slug
     parentTopicSlug: String,
     title: String,
     description: String,
@@ -270,10 +198,22 @@ payload:
 ```
 
 ---
+
 ## Lesson
 
+the core of Riveto app.\
+### 🔓 GET `/lesson/{slug}`
+gets a single lesson
+### 🔓 GET `/lessons/{course-slug}`
+gets a list of lesson in a specific course
+### 🔐 GET `/lessons/`
+gets all lessons only for admins
+### 🔐 Post `/lesson/`
+post lessons only for admins
+### 🔐 Patch `/lessons/`
+patch lessons only for admins
 
-
+more info on swagger
 
 ---
 
@@ -283,7 +223,7 @@ payload:
 
 the course\
 list of lessons.\
-with this response:
+with this respond:
 
 ```ts
 [{}];
@@ -293,7 +233,7 @@ with this response:
 
 lesson\
 content of a lesson.\
-with this response:
+with this respond:
 
 ```ts
 [

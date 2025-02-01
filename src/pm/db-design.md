@@ -23,26 +23,8 @@ This is both the development documentation and the architecture guideline for Ri
 
 ## Transactions
 
-// TODO this does not match backend implementation
 
-```ts
-{
-    user: {type: mongoose.Types.ObjectId, ref: "User"},
-    type: "fixedPrice" | "CustomPrice",
-    amount: Number,
-    price: Number,
-    status: {
-        type: 'Completed' | 'pending' | 'failed',
-        default: 'pending',
-    },
-    metadata: {
-    type: Object,       // data from Zarinpal you need to save
-    },
-    pendingAt: Date,    // date with exact time to the second
-    updatedAt: Date,    // date with exact time to the second
-
-}
-```
+> completely changed. the pr should be reviewd befor updating this section.
 
 ## Topics
 
@@ -74,23 +56,24 @@ This is both the development documentation and the architecture guideline for Ri
 
 ```ts
 {
-    slug: String,
-    title: String,
-    description: String,
-    order: Number,
-    requiredCoins: Number,
-    thumbnailUrl: String,
-    videoUrl: String,
-    views: Number,
-    createdAt: Date,
-    updatedAt: Date,
-    excerpt: {/* tiptap */}
-    body: {/* tiptap */}
-    createdBy: {type: mongoose.Types.ObjectId, ref: "User"},
+    slug: string,
+    title: string,
+    description: string,
+    status: 'Draft' | 'Published' | 'Deleted',
+    access: 'Public' | 'LoggedIn' | 'Premium',
+    hierarchy: number,
+    requiredCoins: number,
+    thumbnailUrl: string,
+    videoUrl?: string,
+    introduction: {/* tiptap */},
+    content: {/* tiptap */},
+    exercise: {/* tiptap */},
+    exam: {/* tiptap */},
+    author: {type: mongoose.Types.ObjectId, ref: "User"},
     courses: [{type: mongoose.Types.ObjectId, ref: "Course"}],
     bookmarkedBy: {type: mongoose.Types.ObjectId, ref: "User"},
-    readBy: {type: mongoose.Types.ObjectId, ref: "User"},
-    ownedBy: {type: mongoose.Types.ObjectId, ref: "User"},
+    readBy: [{type: mongoose.Types.ObjectId, ref: "User"}],
+    ownedBy: [{type: mongoose.Types.ObjectId, ref: "User"}],
 }
 ```
 
